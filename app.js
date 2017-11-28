@@ -1,10 +1,10 @@
-let env = 'development'
-const app = require('express')()
+// let env = 'development'
+// const app = require('express')()
 
-const config = require('./config/config')(env)
-// const cl = require('./config/commandLine')(config)
-// require('./config/logger')(cl, config)
-require('./config/db')(config)
-require('./config/express')(app, config)
+// const config = require('./config/config')(env)
+// require('./config/db')(config)
+// require('./config/express')(app, config)
 
-console.log('Server running')
+// console.log('Server running')
+
+require('./logger')

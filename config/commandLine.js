@@ -1,7 +1,7 @@
 const exec = require('child_process').exec
 
-module.exports = (config) => {
-  let getCpu = (callback) => {
+module.exports = (config, ee) => {
+  let getCpu = () => {
     exec(config.getCpuCommand, (err, stdout, stderr) => {
       if (err) {
         console.log(err)
@@ -9,7 +9,7 @@ module.exports = (config) => {
       }
 
       let res = stdout.trim()
-      callback(res)
+      ee.emit('data', res)
     })
   }
   return { getCpu }
