@@ -46,17 +46,15 @@ let averageToPoints = (data, points) => {
   return sums
 }
 
-module.exports = (config) => {
-  return (period) => {
-    let startDate = new Date()
-    let offset = offsets[period]
-    if (!offset) {
-      return
-      // invalid
-    }
-    startDate.setTime(startDate.getTime() - offset)
-    return Entry
-      .getEntries(startDate)
-      .then(data => averageToPoints(data, config.pointsPerGraphic))
+module.exports = (config) => (period) => {
+  let startDate = new Date()
+  let offset = offsets[period]
+  if (!offset) {
+    return
+    // invalid
   }
+  startDate.setTime(startDate.getTime() - offset)
+  return Entry
+    .getEntries(startDate)
+    .then(data => averageToPoints(data, config.pointsPerGraphic))
 }

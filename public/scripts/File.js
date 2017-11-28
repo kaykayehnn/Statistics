@@ -17,25 +17,22 @@ $(document).ready(function () {
       data[i] = [new Date(data[i].date), data[i].avg]
     }
     data.splice(0, 0, ['Time', 'Usage'])
+    $(window).resize(function() {
+      drawChart(data)
+    })
     return data
   }
 
   function drawChart(data) {
-    console.log(data)
     data = google.visualization.arrayToDataTable(data)
     var options = {
       title: 'CPU usage during last ' + period,
-      animation: {
-      	startup: true,
-      	duration: 500
-      },
       legend: {
         position: 'bottom'
       }
     }
 
-    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'))
+    var chart = new google.visualization.LineChart(document.getElementById('chart'))
     chart.draw(data, options)
   }
-}
-)
+})

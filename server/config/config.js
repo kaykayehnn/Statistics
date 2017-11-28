@@ -11,7 +11,6 @@ const conf = {
 
 let keys = ['development', 'production']
 for (let key of keys) {
-  conf[key].contentFolder = 'public'
   conf[key].dbPath = 'mongodb://localhost:27017/statistics'
   conf[key].getCpuCommand = 'ps -A -o %cpu | awk \'{s+=$1} END {print s }\''
   conf[key].pointsPerGraphic = 60
