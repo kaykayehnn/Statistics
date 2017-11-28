@@ -26,6 +26,10 @@ $(document).ready(function () {
   function drawChart(data) {
     data = google.visualization.arrayToDataTable(data)
     var options = {
+      chartArea: {
+        width: '90%',
+        height: '80%'
+      },
       title: 'CPU usage during last ' + period,
       legend: {
         position: 'bottom'
