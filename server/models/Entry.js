@@ -5,17 +5,4 @@ let Entry = mongoose.model('Entry', {
   data: { type: mongoose.Schema.Types.Mixed, required: true }
 })
 
-let addEntry = (entry) => {
-  return new Entry(entry)
-    .save()
-}
-let getEntries = (startDate) => {
-  // handle options
-  return Entry
-    .find({ 'date': { $gte: startDate } })
-}
-
-module.exports = {
-  addEntry,
-  getEntries
-}
+module.exports = Entry

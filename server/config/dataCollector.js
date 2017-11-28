@@ -5,7 +5,7 @@ let addToDB = (data) => {
   data = { cpu: Number(data) }
   let entry = { date: Date.now(), data }
   Entry
-    .addEntry(entry)
+    .create(entry)
     .then(console.log)
     .catch((err) => console.log(err))
 }

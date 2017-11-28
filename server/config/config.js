@@ -1,11 +1,13 @@
 const conf = {
   development: {
     port: 3000,
-    interval: 5000
+    interval: 5000,
+    cpuThreshold: 400
   },
   production: {
     port: 9988,
-    interval: 10000
+    interval: 10000,
+    cpuThreshold: 150
   }
 }
 

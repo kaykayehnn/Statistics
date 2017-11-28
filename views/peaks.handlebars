@@ -1,0 +1,18 @@
+<div class="container-fluid">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>CPU Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr>
+        <td>{{date}}</td>
+        <td>{{data.cpu}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

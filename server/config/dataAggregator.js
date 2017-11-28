@@ -55,6 +55,6 @@ module.exports = (config) => (period) => {
   }
   startDate.setTime(startDate.getTime() - offset)
   return Entry
-    .getEntries(startDate)
+    .find({ date: { $gte: startDate } })
     .then(data => averageToPoints(data, config.pointsPerGraphic))
 }
