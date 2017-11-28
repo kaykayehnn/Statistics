@@ -13,7 +13,7 @@ $(document).ready(function () {
   }
 
   function formatData(data) {
-    for (let i = 0; i < data.length; i++) {
+    for (var i = 0; i < data.length; i++) {
       data[i] = [new Date(data[i].date), data[i].avg]
     }
     data.splice(0, 0, ['Time', 'Usage'])
@@ -25,7 +25,10 @@ $(document).ready(function () {
     data = google.visualization.arrayToDataTable(data)
     var options = {
       title: 'CPU usage during last ' + period,
-      curveType: 'function',
+      animation: {
+      	startup: true,
+      	duration: 500
+      },
       legend: {
         position: 'bottom'
       }

@@ -1,7 +1,7 @@
 const conf = {
   development: {
     port: 3000,
-    interval: 100
+    interval: 5000
   },
   production: {
     port: 9988,
