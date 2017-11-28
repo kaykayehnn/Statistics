@@ -1,3 +1,4 @@
+let env = 'development'
 const app = require('express')()
 
 const config = require('./config/config')(env)

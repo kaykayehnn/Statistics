@@ -1,3 +1,4 @@
+let env = 'development'
 
 const config = require('./config/config')(env)
 const cl = require('./config/commandLine')(config)
