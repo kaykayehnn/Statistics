@@ -1,60 +1,86 @@
 const Entry = require('../models/Entry')
+
 const offsets = {
   hour: 3600 * 1000,
-  day: 3600 * 1000 * 24,
-  week: 3600 * 1000 * 24 * 7
+  day: 24 * 3600 * 1000,
+  week: 7 * 24 * 3600 * 1000
 }
-let averageTime = (t1, t2) => (t1.getTime() + t2.getTime()) / 2
-
-let roundAndAverage = (arr, divisor, lastDivisor) => {
-  let len = arr.length
-  let last = len - 1
-  for (let i = 0; i < last; i++) {
-    arr[i].avg = Math.round(arr[i].total / divisor * 10) / 10
-    delete arr[i].total
-  }
-  arr[last].avg = Math.round(arr[last].total / lastDivisor * 10) / 10
-  delete arr[last].total
+const millisPerPoint = {
+  hour: 6E4,
+  day: 1.44E6,
+  week: 1.008E7
 }
+const TheEpoch = new Date('1970-01-01')
 
-let averageToPoints = (data, points) => {
-  let len = data.length
-  if (len < points) return 'Not enough points'
+// let round = (field) => {
+//   return {
+//     $divide: [{
+//       $floor: {
+//         $multiply: [`${field}`, 100]
+//       }
+//     }, 100]
+//   }
+// }
 
-  let sums = new Array(points)
-  let pointsPerPoint = Math.floor(len / points)
-  let lastExtra = len % pointsPerPoint
-  for (let i = 0; i < points; i++) {
-    sums[i] = { date: data[i * pointsPerPoint].date, total: 0 }
-    for (let j = 0; j < pointsPerPoint; j++) {
-      sums[i].total += data[i * pointsPerPoint + j].data.cpu
+let simpleQuery = (startDate, millis) => {
+  return Entry.aggregate([{
+    $match: {
+      date: {
+        $gte: startDate
+      }
     }
-    if (i !== points - 1) {
-      sums[i].date.setTime(
-        averageTime(sums[i].date, data[(i + 1) * pointsPerPoint - 1].date))
+  },
+  {
+    $project: {
+      cpu: '$data.cpu',
+      date: 1
+    }
+  },
+  {
+    $group: {
+      _id: {
+        $floor: {
+          $divide: [{
+            $subtract: ['$date', startDate]
+          }, millis]
+        }
+      },
+      avgCpu: {
+        $avg: '$cpu'
+      },
+      avgDate: {
+        $avg: {
+          $sum: {
+            $subtract: ['$date', TheEpoch]
+          }
+        }
+      }
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      avg: '$avgCpu',
+      date: '$avgDate'
+    }
+  },
+  {
+    $sort: {
+      date: 1
     }
   }
-
-  let lastData = len - 1
-  let lastPoint = points - 1
-  for (let i = 0; i < lastExtra; i++) {
-    sums[lastPoint].total += data[lastData - i].data.cpu
-  }
-
-  sums[lastPoint].date.setTime(averageTime(sums[lastPoint].date, data[lastData].date))
-  roundAndAverage(sums, pointsPerPoint, pointsPerPoint + lastExtra)
-  return sums
+  ])
 }
 
 module.exports = (config) => (period) => {
   let startDate = new Date()
   let offset = offsets[period]
-  if (!offset) {
-    return
-    // invalid
-  }
+  let millis = millisPerPoint[period]
   startDate.setTime(startDate.getTime() - offset)
-  return Entry
-    .find({ date: { $gte: startDate } })
-    .then(data => averageToPoints(data, config.pointsPerGraphic))
+
+  let toReturn = (period === 'hour' || period === 'day' || period === 'week')
+    ? simpleQuery(startDate, millis)
+    : 'Invalid period'
+
+  return Promise.resolve(toReturn)
 }
