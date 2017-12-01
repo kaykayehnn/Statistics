@@ -1,10 +1,10 @@
-let dataAggregator = require('../config/dataAggregator')
+let customStatistics = require('../statistics/custom')
 
 module.exports = {
   f: (config) => {
-    dataAggregator = dataAggregator(config)
+    customStatistics = customStatistics(config)
     return (req, res) => {
-      let data = dataAggregator(req.query.period)
+      let data = customStatistics(req.query.period)
       res.writeHead(200, {
         'content-type': 'application/json'
       })

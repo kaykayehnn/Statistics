@@ -1,7 +1,7 @@
 let env = 'development'
 const app = require('express')()
 
-const config = require('./config/config')(env)
+const config = require('./config/settings')(env)
 require('./config/db')(config)
 require('./config/express')(app, config)
 require('./config/routes')(app, config)

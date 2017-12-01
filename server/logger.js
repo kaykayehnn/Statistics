@@ -1,9 +1,9 @@
 let env = 'development'
 
-const config = require('./config/config')(env)
-const ee = require('./config/eventEmitter')
+const config = require('./config/settings')(env)
+const ee = require('./logging/eventEmitter')
 require('./config/db')(config)
-require('./config/dataCollector')(config, ee)
-require('./config/commandLine')(config, ee)
+require('./logging/dataCollector')(config, ee)
+require('./logging/commandLine')(config, ee)
 
 console.log('Database running')

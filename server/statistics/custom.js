@@ -12,16 +12,6 @@ const millisPerPoint = {
 }
 const TheEpoch = new Date('1970-01-01')
 
-// let round = (field) => {
-//   return {
-//     $divide: [{
-//       $floor: {
-//         $multiply: [`${field}`, 100]
-//       }
-//     }, 100]
-//   }
-// }
-
 let simpleQuery = (startDate, millis) => {
   return Entry.aggregate([{
     $match: {
