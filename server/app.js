@@ -1,16 +1,16 @@
 let env = 'development'
 const app = require('express')()
+const http = require('http').Server(app)
 
 const config = require('./config/settings')(env)
 const ee = require('./logging/eventEmitter')
 require('./config/db')(config)
-require('./logging/dataCollector')(config, ee)
-require('./logging/commandLine')(config, ee)
+require('./logging/dataCollector')(ee, config)
 require('./config/express')(app, config)
 require('./config/routes')(app, config)
+require('./config/sockets')(http, ee, config)
+require('./statistics/basic')(ee, config)
 
-console.log('Database running')
-app.listen(config.port)
-console.log('Server running')
-
-// require('./logger')
+http.listen(config.port, () => {
+  console.log(`Server running on ${config.port}`)
+})

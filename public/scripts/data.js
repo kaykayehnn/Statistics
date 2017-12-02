@@ -30,6 +30,10 @@ $(document).ready(function () {
         width: '90%',
         height: '80%'
       },
+      vAxis: {
+        maxValue: 200,
+        minValue: 0
+      },
       title: 'CPU usage during last ' + period,
       trendlines: {
         0: {

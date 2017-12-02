@@ -2,7 +2,7 @@ const Entry = require('../models/Entry')
 let cl = require('./commandLine')
 
 let addToDB = (data) => {
-  data = { cpu: Number(data) }
+  data = { cpu: data }
   let entry = { date: Date.now(), data }
   Entry
     .create(entry)
@@ -10,8 +10,8 @@ let addToDB = (data) => {
     .catch((err) => console.log(err))
 }
 
-module.exports = (config, ee) => {
-  cl = cl(config, ee)
+module.exports = (ee, config) => {
+  cl = cl(ee, config)
 
   ee.addListener('data', addToDB)
 

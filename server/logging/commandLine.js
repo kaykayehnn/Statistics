@@ -1,6 +1,6 @@
 const exec = require('child_process').exec
 
-module.exports = (config, ee) => {
+module.exports = (ee, config) => {
   let getCpu = () => {
     exec(config.getCpuCommand, (err, stdout, stderr) => {
       if (err) {
@@ -8,7 +8,7 @@ module.exports = (config, ee) => {
         return
       }
 
-      let res = stdout.trim()
+      let res = Number(stdout.trim())
       ee.emit('data', res)
     })
   }

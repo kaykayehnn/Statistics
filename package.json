@@ -16,7 +16,8 @@
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
     "mongodb": "2.2.33",
-    "mongoose": "4.13.5"
+    "mongoose": "4.13.5",
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "chai": "^4.1.2",
