@@ -6,19 +6,31 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles/bootstrap.min.css">
-  <link rel="stylesheet" href="styles/style.css">
-  {{!-- {{{css}}} --}}
-  <script src="scripts/jquery.min.js"></script>
-  {{!-- {{{scripts}}} --}}
+  <link rel="stylesheet" href="styles/style.css"> {{!-- {{{css}}} --}}
+  <script src="scripts/jquery.min.js"></script> {{!-- {{{scripts}}} --}}
+  <script src="scripts/bootstrap.min.js"></script>
 </head>
 
 <body>
   <div class="container-fluid">
     <div class="jumbotron jumbotron-fluid">
       <h1>Statistics</h1>
-      <a href="hour" class="btn btn-lg btn-default">Hour</a>
-      <a href="day" class="btn btn-lg btn-default">Day</a>
-      <a href="week" class="btn btn-lg btn-default">Week</a>
+      <div class="dropdown">
+        <button class="btn btn-lg btn-default dropdown-toggle" type="button" data-toggle="dropdown">Statistics
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="hour">Hour</a>
+          </li>
+          <li>
+            <a href="day">Day</a>
+          </li>
+          <li>
+            <a href="week">Week</a>
+          </li>
+        </ul>
+      </div>
       <a href="peaks" class="btn btn-lg btn-default">Peaks</a>
     </div>
   </div>
