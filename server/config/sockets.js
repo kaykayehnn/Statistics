@@ -3,7 +3,9 @@ module.exports = (http, ee, config) => {
 
   ee.addListener('data', data => io.emit('peak', data))
   io.on('connection', (socket) => {
-    console.log('user connected')
-    socket.on('disconnect', () => console.log('dc'))
+    if (config.env !== 'production') {
+      console.log('user connected')
+      socket.on('disconnect', () => console.log('dc'))
+    }
   })
 }

@@ -19,6 +19,6 @@ for (let key of keys) {
 } // same in both envs
 
 module.exports = (env) => {
-  conf.env = env
+  conf[env].env = env
   return conf[env]
 }
