@@ -1,41 +1,48 @@
 $(document).ready(function () {
   var socket = io()
-  var removeHidden = function () {
-    $('.alert:hidden').remove()
-  }
-  var add = function (element) {
-    element.prependTo($('#alerts')).fadeIn()
-  }
-  var fadeOut = function (e) {
-    var element = $(e.target.tagName === 'STRONG' ? e.target.parentElement : e.target)
-    element.fadeOut(removeHidden)
-  }
+  const CPUThreshold = 100
+  const fadeTime = 600
 
   socket.on('peak', (data) => {
-    var getClasses = function () {
-      return 'alert ' + (data >= 100 ? 'alert-danger' : 'alert-info')
-    }
-    var getHtml = function () {
-      if (data >= 100) {
-        return '<strong>High CPU Usage! ' + data + '%</strong>'
-      } return 'Normal CPU Usage. ' + data + '%'
-    }
-    var addAndRemoveHidden = function () {
-      removeHidden()
-      add(element)
-    }
-    var currentAlerts = $('.alert:visible')
-    var element = $('<div>')
-      .addClass(getClasses)
-      .html(getHtml)
-      .click(fadeOut)
-
-    if (currentAlerts.length >= 3) {
-      currentAlerts
-        .last()
-        .fadeOut(addAndRemoveHidden)
+    var currentAlert = $('.alert')
+    if (currentAlert.length === 0) {
+      $('<div>')
+        .addClass(getClasses)
+        .html(getHtml)
+        .hide()
+        .fadeIn()
+        .appendTo($('.container-fluid'))
     } else {
-      add(element)
+      var prevUsage = Number(currentAlert.text().split('').reduce(reduceToNumber))
+      currentAlert
+        .removeClass()
+        .addClass(getClasses)
+        .html(getHtml)
+    }
+
+    function getClasses () {
+      return 'alert ' + (data >= CPUThreshold ? 'alert-danger' : 'alert-success')
+    }
+    function getHtml () {
+      var glyph = getGlyph()
+      return data >= CPUThreshold
+        ? '<strong>High CPU Usage! ' + data + '% ' + glyph + '</strong>'
+        : '<p>Normal CPU Usage. ' + data + '%  ' + glyph + '</p>'
+    }
+    function getGlyph () {
+      if (!prevUsage) return ''
+      return '<span class="glyphicon glyphicon-circle-arrow-' +
+        (data >= prevUsage ? 'up' : 'down') + '"></span>'
+    }
+    function reduceToNumber (a, b) {
+      if (a !== '' && !isNumber(a)) a = ''
+      if (isNumber(b) || b === '.') {
+        return a + b
+      }
+      return a
+      function isNumber (c) {
+        return (c >= '0' && c <= '9')
+      }
     }
   })
 })
