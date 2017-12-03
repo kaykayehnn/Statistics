@@ -6,10 +6,11 @@ module.exports = {
     let yesterday = new Date()
     yesterday.setDate(yesterday.getDate() - 1)
     Entry
-      .find({ date: { $gte: yesterday }, 'data.cpu': { $gte: threshold } })
+      .find({ date: { $gte: yesterday }, 'data.cpu': { $gte: threshold } }, { _id: 0, __v: 0 })
       .sort({ 'data.cpu': -1 })
       .then(data => {
-        res.render('peaks', data)
+        let obj = { data }
+        res.render('peaks', obj)
       })
   }
 }

@@ -11,7 +11,7 @@ $(document).ready(function () {
         .html(getHtml)
         .hide()
         .fadeIn()
-        .appendTo($('.container-fluid'))
+        .appendTo($('#status'))
     } else {
       var prevUsage = Number(currentAlert.text().split('').reduce(reduceToNumber))
       currentAlert

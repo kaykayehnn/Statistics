@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles/bootstrap.min.css">
   <link rel="stylesheet" href="styles/style.css"> {{!-- {{{css}}} --}}
-  <script src="scripts/jquery.min.js"></script> {{!-- {{{scripts}}} --}}
-  <script src="scripts/bootstrap.min.js"></script>
-  <script src="scripts/socket.io.js"></script>
+  <script src="scripts/libs/jquery.min.js"></script> {{!-- {{{scripts}}} --}}
+  <script src="scripts/libs/bootstrap.min.js"></script>
+  <script src="scripts/libs/socket.io.js"></script>
   <script src="scripts/sockets.js"></script>
 </head>
 <body>
@@ -34,6 +34,7 @@
       <a href="peaks" class="btn btn-lg btn-default">Peaks</a>
     </div>
   </div>
+  <div id="status" class="container-fluid"></div>
   {{{body}}}
 </body>
 </html>
