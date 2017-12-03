@@ -30,7 +30,7 @@ $(document).ready(function () {
         : '<p>Normal CPU Usage. ' + data + '%  ' + glyph + '</p>'
     }
     function getGlyph () {
-      if (!prevUsage) return ''
+      if (!prevUsage || prevUsage === data) return ''
       return '<span class="glyphicon glyphicon-circle-arrow-' +
         (data >= prevUsage ? 'up' : 'down') + '"></span>'
     }
