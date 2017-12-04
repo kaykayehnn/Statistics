@@ -31,7 +31,10 @@
           </li>
         </ul>
       </div>
-      <a href="peaks" class="btn btn-lg btn-default">Peaks</a>
+      <a href="peaks" class="btn btn-lg btn-default">Peaks
+        {{#if locals.newPeaksCounter}}
+        <span class="badge">{{locals.newPeaksCounter}}</span>
+        {{/if}}</a>
     </div>
   </div>
   <div id="status" class="container-fluid"></div>

@@ -1,3 +1,3 @@
 module.exports = (req, res) => {
-  res.render('statistics')
+  res.render('statistics', res)
 }

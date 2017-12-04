@@ -10,6 +10,5 @@ module.exports = (app, config) => {
   app.get('/data', handlers.data)
   app.get('/index*', (req, res) => res.redirect('/hour'))
 
-  app.use(express.static('public'))
   app.all('*', handlers.notFound)
 }
