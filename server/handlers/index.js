@@ -1,12 +1,10 @@
 const homePageHandler = require('./homePage')
-const dataHandler = require('./data')
 const peaksHandler = require('./peaks')
 const notFoundHandler = require('./notFound')
 
 module.exports = (config) => {
   let obj = {
     homePage: homePageHandler,
-    data: dataHandler,
     peaks: peaksHandler,
     notFound: notFoundHandler
   }

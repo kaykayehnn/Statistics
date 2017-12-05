@@ -1,30 +1,23 @@
-$(document).ready(function () {
-  var period;
+function draw (data) {
+  var address = document.location.href.split(window.location.host)[1]
+  var period = address.slice(1) || 'hour'
   google.charts.load('current', { 'packages': ['corechart'] })
-  google.charts.setOnLoadCallback(getData)
+  google.charts.setOnLoadCallback(formatData)
 
-  function getData () {
-    var address = document.location.href.split(window.location.host)[1]
-    period = address.slice(1) || 'hour'
-    $.ajax({
-      url: 'data' + '?period=' + period
-    }).then(formatData)
-      .then(drawChart)
-  }
-
-  function formatData (data) {
+  function formatData () {
     for (var i = 0; i < data.length; i++) {
       data[i] = [new Date(data[i].date), data[i].avg]
     }
     data.splice(0, 0, ['Time', 'Usage'])
+    var dataTable = google.visualization.arrayToDataTable(data)
+
     $(window).resize(function () {
-      drawChart(data)
+      drawChart(dataTable)
     })
-    return data
+    drawChart(dataTable)
   }
 
   function drawChart (data) {
-    data = google.visualization.arrayToDataTable(data)
     var options = {
       chartArea: {
         width: '90%',
@@ -50,4 +43,4 @@ $(document).ready(function () {
     var chart = new google.visualization.LineChart(document.getElementById('chart'))
     chart.draw(data, options)
   }
-})
+}

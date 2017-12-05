@@ -62,13 +62,13 @@ let simpleQuery = (startDate, millis) => {
   ])
 }
 
-module.exports = (config) => (period) => {
+module.exports = (period) => {
   let startDate = new Date()
   let offset = offsets[period]
   let millis = millisPerPoint[period]
   startDate.setTime(startDate.getTime() - offset)
 
-  let toReturn = (period === 'hour' || period === 'day' || period === 'week')
+  let toReturn = millis
     ? simpleQuery(startDate, millis)
     : 'Invalid period'
 
