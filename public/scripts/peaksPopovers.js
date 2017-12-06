@@ -23,6 +23,8 @@ function getViewPort () {
 function setPopoverContent (target) {
   var date = new Date(formatDate(target.parent().text()))
   var dataTable = localStorage.getItem(date)
+  console.log(typeof localStorage.getItem(date))
+  console.log(typeof dataTable)
   var promise
   if (dataTable) {
     promise = Promise.resolve(drawChart(dataTable))
@@ -49,7 +51,8 @@ function setPopoverContent (target) {
     })
 
   function saveInStorage (dataTable) {
-    localStorage.setItem(date, dataTable)
+    var stringified = JSON.stringify(dataTable).slice(1, -1)
+    localStorage.setItem(date, stringified)
     return dataTable
   }
 }
@@ -86,7 +89,7 @@ function formatData (data) {
 function drawChart (dataTable) {
   // returns not attached div with chart
   var width = Math.max(dimensions.width * 0.5, 300)
-  var height = width / 16 * 9
+  var height = Math.max(width * 0.5, 300)
   var options = {
     width,
     height,
