@@ -22,21 +22,10 @@ function getViewPort () {
 }
 function setPopoverContent (target) {
   var date = new Date(formatDate(target.parent().text()))
-  var dataTable = localStorage.getItem(date)
-  console.log(typeof localStorage.getItem(date))
-  console.log(typeof dataTable)
-  var promise
-  if (dataTable) {
-    promise = Promise.resolve(drawChart(dataTable))
-  } else {
-    promise = requestData(date)
-      .then(formatData)
-      .then(saveInStorage)
-      .then(drawChart)
-      .catch(handleErr)
-  }
-
-  promise
+  requestData(date)
+    .then(formatData)
+    // .then(saveInStorage)
+    .then(drawChart)
     .then(function (div) {
       var options = {
         title: 'Details',
@@ -49,12 +38,7 @@ function setPopoverContent (target) {
       target.popover(options)
       target.popover('show')
     })
-
-  function saveInStorage (dataTable) {
-    var stringified = JSON.stringify(dataTable).slice(1, -1)
-    localStorage.setItem(date, stringified)
-    return dataTable
-  }
+    .catch(handleErr)
 }
 function setActive (btn) {
   btn.addClass('active')
