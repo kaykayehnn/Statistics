@@ -3,7 +3,6 @@ const date = require('../common/date')
 const Key = 'lastPeak'
 const PeaksPath = '/peaks'
 const Threshold = 100
-const CookieAge = 24 * 3600 * 1000
 const TheEpoch = new Date('1970-01-01').getTime()
 
 module.exports = (req, res, next) => {
@@ -12,7 +11,7 @@ module.exports = (req, res, next) => {
   } else {
     let lastPeakTime = req.cookies[Key] || TheEpoch
     if (!req.cookies[Key]) {
-      res.cookie(Key, TheEpoch, { maxAge: CookieAge })
+      res.cookie(Key, TheEpoch)
     }
 
     EntryMethods
