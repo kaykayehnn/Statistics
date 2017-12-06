@@ -21,10 +21,13 @@ function drawTable (arr) {
 
   function getRow (obj) {
     var date = new Date(obj.date)
-    var dateBox = $('<td>').text(date + ' ')
-    if (date > lastPeakDate)
-      dateBox.append('<span class="label label-danger">New</span>')
+    var dateBox = $('<td>')
+    var text = $('<p>')
+      .text(date)
+      .appendTo(dateBox)
+    if (date > lastPeakDate) text.append(' <span class="label label-danger">New</span>')
 
+    text.append(' <button type="button" class="btn btn-sm btn-info">Details</button>')
     var tr = $('<tr>')
       .append(dateBox)
       .append('<td>' + obj.data.cpu + '</td>')

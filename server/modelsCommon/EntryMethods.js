@@ -8,7 +8,9 @@ let addToDB = (data) => {
     .catch((err) => console.log(err))
 }
 let getAllBetween = (start, end) => {
-  return Entry.find({ date: { $gte: start, $lte: end } })
+  return Entry
+    .find({ date: { $gte: start, $lte: end } }, { _id: 0, date: 1, 'data.cpu': 1 })
+    .sort({ date: 1 })
 }
 let getPeaks = (date, threshold) => {
   return Entry
