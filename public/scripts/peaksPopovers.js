@@ -1,31 +1,53 @@
 const fiveMin = 1000 * 300
 const rgx = /^(?:.+?\s){7}/
 const tableBtns = $('tbody tr button')
-
+localStorage.clear() // remove for production!
 google.charts.load('current', { 'packages': ['corechart'] })
-attachPopovers()
+
 tableBtns.click(function (e) {
-  setClasses(e.target)
   var target = $(e.target)
-  var parent = target.parent()
-  var targetDate = new Date(formatDate(parent.text()))
-  // requestData(targetDate)
+  if (target.hasClass('active')) {
+    target.removeClass('active')
+    toggleAllNotActiveButtons(true)
+    target.popover('hide')
+  } else {
+    setActive(target)
+    setPopoverContent(target)
+  }
 })
-function attachPopovers () {
-  $(document.body).popover({ title: 'hello', content: 'its me', selector: '.btn', html: true })
-}
-function setClasses (btn) {
-  if (btn) { // not right
-    disableAllOtherButtons(btn)
+function setPopoverContent (target) {
+  var date = new Date(formatDate(target.parent().text()))
+  var dataTable = localStorage.getItem(date)
+  var promise
+  if (dataTable) {
+    promise = Promise.resolve(drawChart(dataTable))
+  } else {
+    promise = requestData(date)
+      .then(formatData)
+      .then(saveInStorage)
+      .then(drawChart)
+      .catch(handleErr)
+  }
+
+  promise
+    .then(function (div) {
+      target.popover({ title: 'Hello', content: div.html(), html: true, trigger: 'manual', container: 'body' })
+      target.popover('show')
+    })
+
+  function saveInStorage (dataTable) {
+    localStorage.setItem(date, dataTable)
+    return dataTable
   }
 }
-function disableAllOtherButtons (btn) {
-  for (var i = 0; i < tableBtns.length; i++) {
-    var currentBtn = tableBtns[i]
-    if (currentBtn !== btn) {
-      $(currentBtn).addClass('disabled')
-    }
-  }
+function setActive (btn) {
+  btn.addClass('active')
+  toggleAllNotActiveButtons(false)
+}
+// true for enable, false for disable
+function toggleAllNotActiveButtons (state) {
+  state = !state
+  tableBtns.filter(':not(.active)').toggleClass('disabled', state)
 }
 function formatDate (text) {
   var match = rgx.exec(text)
@@ -35,11 +57,9 @@ function requestData (date) {
   var startDate = date.getTime() - fiveMin
   var endDate = date.getTime() + fiveMin
   var data = { startDate, endDate }
-  $.ajax({
+  return $.ajax({
     url: '/data',
-    data,
-    success: formatData,
-    error: handleErr
+    data
   })
 }
 function formatData (data) {
@@ -48,14 +68,13 @@ function formatData (data) {
   }
   data.splice(0, 0, ['Time', 'Usage'])
   var dataTable = google.visualization.arrayToDataTable(data)
-  drawChart(dataTable)
+  return dataTable
 }
-function drawChart (data) {
+function drawChart (dataTable) {
+  // returns not attached div with chart
   var options = {
-    chartArea: {
-      width: '90%',
-      height: '80%'
-    },
+    width: 400,
+    height: 300,
     vAxis: {
       maxValue: 200,
       minValue: 0
@@ -73,8 +92,10 @@ function drawChart (data) {
     }
   }
 
-  var chart = new google.visualization.LineChart($('<div class="container">').prependTo(document.body)[0])
-  chart.draw(data, options)
+  var div = $('<div>')
+  var chart = new google.visualization.LineChart(div[0])
+  chart.draw(dataTable, options)
+  return div
 }
 function handleErr (err) {
   console.warn(err.responseText)
