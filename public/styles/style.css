@@ -3,3 +3,7 @@
   min-width: 900px;
   min-height: 700px;
 }
+
+.popover {
+  max-width: 100%
+}

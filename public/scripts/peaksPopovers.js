@@ -1,7 +1,8 @@
 const fiveMin = 1000 * 300
 const rgx = /^(?:.+?\s){7}/
 const tableBtns = $('tbody tr button')
-localStorage.clear() // remove for production!
+const dimensions = getViewPort()
+
 google.charts.load('current', { 'packages': ['corechart'] })
 
 tableBtns.click(function (e) {
@@ -10,11 +11,15 @@ tableBtns.click(function (e) {
     target.removeClass('active')
     toggleAllNotActiveButtons(true)
     target.popover('hide')
-  } else {
+  } else if (!target.hasClass('disabled')) {
     setActive(target)
     setPopoverContent(target)
   }
 })
+function getViewPort () {
+  var doc = $(window)
+  return { width: doc.width(), height: doc.height() }
+}
 function setPopoverContent (target) {
   var date = new Date(formatDate(target.parent().text()))
   var dataTable = localStorage.getItem(date)
@@ -31,7 +36,15 @@ function setPopoverContent (target) {
 
   promise
     .then(function (div) {
-      target.popover({ title: 'Hello', content: div.html(), html: true, trigger: 'manual', container: 'body' })
+      var options = {
+        title: 'Details',
+        content: div.html(),
+        html: true,
+        trigger: 'manual',
+        placement: 'top',
+        container: 'body'
+      }
+      target.popover(options)
       target.popover('show')
     })
 
@@ -72,14 +85,20 @@ function formatData (data) {
 }
 function drawChart (dataTable) {
   // returns not attached div with chart
+  var width = Math.max(dimensions.width * 0.5, 300)
+  var height = width / 16 * 9
   var options = {
-    width: 400,
-    height: 300,
+    width,
+    height,
+    chartArea: {
+      width: '80%',
+      height: '80%'
+    },
     vAxis: {
       maxValue: 200,
       minValue: 0
     },
-    title: 'CPU usage during last {timePlaceholder}',
+    title: 'CPU usage',
     trendlines: {
       0: {
         type: 'polynomial',
@@ -92,7 +111,7 @@ function drawChart (dataTable) {
     }
   }
 
-  var div = $('<div>')
+  var div = $('<div class="container-fluid">')
   var chart = new google.visualization.LineChart(div[0])
   chart.draw(dataTable, options)
   return div
