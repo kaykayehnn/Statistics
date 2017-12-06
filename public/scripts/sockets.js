@@ -1,25 +1,16 @@
 $(document).ready(function () {
   var socket = io()
   const CPUThreshold = 100
-  const fadeTime = 600
+  const alertDiv = $('div.alert')
+  var prevUsage
 
   socket.on('peak', (data) => {
-    var currentAlert = $('.alert')
-    if (currentAlert.length === 0) {
-      $('<div>')
-        .addClass(getClasses)
-        .html(getHtml)
-        .hide()
-        .fadeIn()
-        .appendTo($('#status'))
-    } else {
-      var prevUsage = Number(currentAlert.text().split('').reduce(reduceToNumber))
-      currentAlert
-        .removeClass()
-        .addClass(getClasses)
-        .html(getHtml)
-    }
+    alertDiv
+      .removeClass()
+      .addClass(getClasses)
+      .html(getHtml)
 
+    prevUsage = data
     function getClasses () {
       return 'alert ' + (data >= CPUThreshold ? 'alert-danger' : 'alert-success')
     }
@@ -33,16 +24,6 @@ $(document).ready(function () {
       if (!prevUsage || prevUsage === data) return ''
       return '<span class="glyphicon glyphicon-circle-arrow-' +
         (data >= prevUsage ? 'up' : 'down') + '"></span>'
-    }
-    function reduceToNumber (a, b) {
-      if (a !== '' && !isNumber(a)) a = ''
-      if (isNumber(b) || b === '.') {
-        return a + b
-      }
-      return a
-      function isNumber (c) {
-        return (c >= '0' && c <= '9')
-      }
     }
   })
 })
