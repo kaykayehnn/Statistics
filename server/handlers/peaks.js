@@ -1,5 +1,6 @@
 const EntryMethods = require('../modelsCommon/EntryMethods')
 const date = require('../common/date')
+const EntryPoint = 'scripts/peaks/peaksMain.js'
 
 module.exports = {
   f: config => (req, res) => {
@@ -8,7 +9,7 @@ module.exports = {
     EntryMethods
       .getPeaks(startDate, threshold)
       .then(data => {
-        let obj = { data }
+        let obj = { data, entryPoint: EntryPoint }
         res.render('peaks', obj)
       })
   }

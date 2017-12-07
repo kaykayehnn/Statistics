@@ -10,8 +10,9 @@
   <script src="scripts/libs/jquery.min.js"></script>
   <script src="scripts/libs/bootstrap.min.js"></script>
   <script src="scripts/libs/socket.io.js"></script>
-  <script src="scripts/sockets.js"></script>
+  <script src="scripts/common/sockets.js"></script>
   <script src="scripts/libs/loader.js"></script>
+  <script data-main="{{entryPoint}}" src="scripts/require.js"></script>
 </head>
 
 <body>
@@ -38,10 +39,10 @@
         <span class="badge">{{locals.newPeaksCounter}}</span>
         {{/if}}</a>
     </div>
-  </div>
-  <div id="status" class="container-fluid">
-    <div class="alert alert-info">
-      <p>No CPU Usage Info yet.</p>
+    <div id="status">
+      <div class="alert alert-info">
+        <p>No CPU Usage Info yet.</p>
+      </div>
     </div>
   </div>
   {{{body}}}
