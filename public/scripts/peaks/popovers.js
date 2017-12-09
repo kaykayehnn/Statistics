@@ -8,6 +8,9 @@ define(['peaks/popovers/creator', 'peaks/popovers/events', 'peaks/popovers/actio
         .one('focus click', createPopoverAndAttachListeners)
 
       $('*').click(function (e) {
+        if ($(e.target).hasClass('dropdown-toggle')) {
+          return
+        }
         e.stopPropagation()
         if (e.target.nodeName !== 'BUTTON') {
           actions.hideAll()
