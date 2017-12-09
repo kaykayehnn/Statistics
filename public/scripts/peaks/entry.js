@@ -1,4 +1,4 @@
-define(['table', 'popovers'], function (table, popovers) {
+define(['peaks/table', 'peaks/popovers'], function (table, popovers) {
   $(function () {
     var data = $('#data').remove().text()
     data = JSON.parse(data)

@@ -4,8 +4,7 @@ require.config({
     lineChart: 'common/lineChart',
     requester: 'common/requester',
     formatter: 'common/formatter',
-    table: 'peaks/table',
-    popovers: 'peaks/popovers'
+    storage: 'common/storage'
   }
 })
 
