@@ -22,12 +22,15 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
+    "envify": "^4.1.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
+    "gulp-envify": "^1.0.0",
     "gulp-htmlmin": "^3.0.0",
     "gulp-semi": "0.0.2",
     "gulp-uglify": "^3.0.0",
     "pump": "^2.0.0",
+    "run-sequence": "^2.2.0",
     "standard": "^10.0.3",
     "typings": "^2.1.1"
   }

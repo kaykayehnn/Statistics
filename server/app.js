@@ -1,4 +1,4 @@
-let env = 'development'
+let env = process.env.NODE_ENV || 'development'
 const app = require('express')()
 const http = require('http').Server(app)
 
