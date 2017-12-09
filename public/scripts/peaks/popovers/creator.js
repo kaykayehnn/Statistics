@@ -12,11 +12,12 @@ define(['lineChart', 'peaks/popovers/dataGetter'], function (lineChart, dataGett
         content: div.html(),
         html: true,
         trigger: 'manual',
-        placement: 'auto top',
+        placement: 'top',
         container: 'body'
       }
 
       target
+        .addClass('hasPopover')
         .popover(options)
         .popover('show')
     }

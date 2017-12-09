@@ -8,7 +8,10 @@ define(function () {
     data.splice(0, 0, ['Time', 'Usage'])
     return data
   }
-  var toDataTable = function (data) {
+  var toDataTable = function (data, format) {
+    if (format) {
+      data = formatData(data)
+    }
     return new Promise(function (resolve, reject) {
       google.charts.setOnLoadCallback(function () {
         var dataTable = google.visualization.arrayToDataTable(data)

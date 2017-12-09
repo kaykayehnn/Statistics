@@ -1,7 +1,9 @@
 define(['lineChart', 'formatter'], function (lineChart, formatter) {
   return function draw (data) {
     const period = getPeriod()
-    return formatter(data)
+    // const selector = $('#chart')
+
+    return formatter.toDataTable(data, true)
       .then(function (dataTable) {
         $(window).resize(function () {
           drawChart(dataTable)
@@ -20,8 +22,8 @@ define(['lineChart', 'formatter'], function (lineChart, formatter) {
         },
         title: 'CPU usage during last ' + period
       }
-      // fix tomorrow, bad
-      return lineChart(dataTable, options).appendTo('#chart')
+
+      return lineChart(dataTable, options, $('#chart'))
     }
   }
 })

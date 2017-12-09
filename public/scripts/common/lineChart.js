@@ -23,10 +23,10 @@ define(function () {
 
   google.charts.load('current', { 'packages': ['corechart'] })
 
-  return function drawChart (dataTable, customOptions) {
+  return function drawChart (dataTable, customOptions, selector) {
     // returns not attached div with chart
     var options = getOptions(customOptions)
-    var div = $('<div class="container-fluid">')
+    var div = selector || $('<div class="container-fluid">')
     var chart = new google.visualization.LineChart(div[0])
 
     chart.draw(dataTable, options)

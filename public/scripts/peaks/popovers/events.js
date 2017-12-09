@@ -3,6 +3,7 @@ define(['peaks/popovers/actions'], function (actions) {
     target
       .mousedown(function (e) {
         e.stopImmediatePropagation()
+        hideOther()
         actions(e.target).toggle()
       })
       .focus(function (e) {
@@ -11,5 +12,9 @@ define(['peaks/popovers/actions'], function (actions) {
       .blur(function (e) {
         actions(e.target).hide()
       })
+
+    function hideOther () {
+      actions('.hasPopover').hide()
+    }
   }
 })
