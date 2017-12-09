@@ -3,9 +3,6 @@
   "version": "0.8.2",
   "description": "statistics app",
   "main": "app.js",
-  "scripts": {
-    "test": "mocha"
-  },
   "keywords": [
     "statistics",
     "app"
@@ -21,9 +18,15 @@
     "socket.io": "^2.0.4"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "mocha": "^4.0.1",
-    "sinon": "^4.1.2",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-semi": "0.0.2",
+    "gulp-uglify": "^3.0.0",
+    "pump": "^2.0.0",
     "standard": "^10.0.3",
     "typings": "^2.1.1"
   }
