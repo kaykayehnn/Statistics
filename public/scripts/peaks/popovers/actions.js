@@ -1,5 +1,5 @@
 define(function () {
-  return function (target1) {
+  var obj = function (target1) {
     var funcFactory = function (action) {
       return function (target2) {
         $(target1 || target2).popover(action)
@@ -9,5 +9,15 @@ define(function () {
     var hide = funcFactory('hide')
     var toggle = funcFactory('toggle')
     return { show, hide, toggle }
+  }
+  obj.hideAll = hideAll
+  return obj
+
+  function hideAll (but) {
+    $('.hasPopover').each(function (ix, el) {
+      if (el !== but) {
+        obj(el).hide()
+      }
+    })
   }
 })

@@ -22,14 +22,12 @@ define(function () {
     function getRow (obj) {
       var date = new Date(obj.date)
       var dateBox = $('<td>')
-      var text = $('<p>')
-        .text(date)
-        .appendTo(dateBox)
-      if (date > lastPeakDate) text.append(' <span class="label label-danger">New</span>')
+      var text = date.toString()
+      if (date > lastPeakDate) text += ' <span class="label label-danger">New</span>'
 
-      text.append(' <button type="button" class="btn btn-sm btn-info">Details</button>')
+      text += ' <button type="button" class="btn btn-sm btn-info">Details</button>'
       var tr = $('<tr>')
-        .append(dateBox)
+        .append(dateBox.html(text))
         .append('<td>' + obj.data.cpu + '</td>')
       return tr
     }

@@ -7,6 +7,13 @@ define(['peaks/popovers/creator', 'peaks/popovers/events', 'peaks/popovers/actio
       tableBtns
         .one('focus click', createPopoverAndAttachListeners)
 
+      $('*').click(function (e) {
+        e.stopPropagation()
+        if (e.target.nodeName !== 'BUTTON') {
+          actions.hideAll()
+        }
+      })
+
       function handledChecker () {
         const handled = {}
         return function (target) {
