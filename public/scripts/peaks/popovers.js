@@ -5,32 +5,55 @@ define(['lineChart', 'requester', 'formatter'], function (linechart, requester, 
     const tableBtns = $('tbody tr button')
     const dimensions = getViewPort()
 
-    tableBtns.click(function (e) {
-      var target = $(e.target)
-      if (target.hasClass('active')) {
-        target.removeClass('active')
-        toggleAllNotActiveButtons(true)
-        target.popover('hide')
-      } else if (!target.hasClass('disabled')) {
-        setActive(target)
-        setPopoverContent(target)
-      }
-    })
+    tableBtns
+      .one('focus', createPopoverAndAttachListeners)
+
     function getViewPort () {
       var doc = $(window)
       return { width: doc.width(), height: doc.height() }
     }
-    function setPopoverContent (target) {
+    function popoverActions (target1) {
+      var funcFactory = function (action) {
+        return function (target2) {
+          $(target1 || target2).popover(action)
+        }
+      }
+      var show = funcFactory('show')
+      var hide = funcFactory('hide')
+      var toggle = funcFactory('toggle')
+      return { show, hide, toggle }
+    }
+    function createPopoverAndAttachListeners (e) {
+      var target = $(e.target)
+      createPopover(target)
+        .then(popoverActions().show)
+
+      target
+        .mousedown(function (e) {
+          e.stopImmediatePropagation()
+          console.log(5)
+          popoverActions(e.target).show()
+        })
+        .focus(function (e) {
+          console.log(6)
+          popoverActions(e.target).show()
+        })
+        .blur(function (e) {
+          console.log(7)
+          popoverActions(e.target).hide()
+        })
+    }
+    function createPopover (target) {
       var dateText = formatDate(target.parent().text())
       var date = new Date(dateText)
       var options = getRequestOptions(date)
-      requester(options)
+      return requester(options)
         .then(formatter)
         .then(drawChart)
-        .then(createPopover)
+        .then(setOptions)
         .catch(console.error)
 
-      function createPopover (div) {
+      function setOptions (div) {
         var options = {
           title: 'Details',
           content: div.html(),
@@ -40,19 +63,9 @@ define(['lineChart', 'requester', 'formatter'], function (linechart, requester, 
           container: 'body'
         }
 
-        target
+        return target
           .popover(options)
-          .popover('show')
       }
-    }
-    function setActive (btn) {
-      btn.addClass('active')
-      toggleAllNotActiveButtons(false)
-    }
-    // true for enable, false for disable
-    function toggleAllNotActiveButtons (state) {
-      state = !state
-      tableBtns.filter(':not(.active)').toggleClass('disabled', state)
     }
     function formatDate (text) {
       var match = rgx.exec(text)

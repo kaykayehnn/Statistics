@@ -21,12 +21,6 @@ let simpleQuery = (startDate, millis) => {
     }
   },
   {
-    $project: {
-      cpu: '$data.cpu',
-      date: 1
-    }
-  },
-  {
     $group: {
       _id: {
         $floor: {
@@ -35,10 +29,10 @@ let simpleQuery = (startDate, millis) => {
           }, millis]
         }
       },
-      avgCpu: {
-        $avg: '$cpu'
+      cpu: {
+        $avg: '$data.cpu'
       },
-      avgDate: {
+      date: {
         $avg: {
           $sum: {
             $subtract: ['$date', TheEpoch]
@@ -49,9 +43,7 @@ let simpleQuery = (startDate, millis) => {
   },
   {
     $project: {
-      _id: 0,
-      avg: '$avgCpu',
-      date: '$avgDate'
+      _id: 0
     }
   },
   {

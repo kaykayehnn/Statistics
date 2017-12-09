@@ -1,5 +1,5 @@
 const customStatistics = require('../statistics/custom')
-const EntryPoint = 'scripts/'
+const EntryPoint = 'scripts/statistics/main.js'
 
 module.exports = (req, res) => {
   customStatistics(req.url.slice(1))

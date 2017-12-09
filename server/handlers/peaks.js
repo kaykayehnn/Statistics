@@ -1,6 +1,6 @@
 const EntryMethods = require('../modelsCommon/EntryMethods')
 const date = require('../common/date')
-const EntryPoint = 'scripts/peaks/peaksMain.js'
+const EntryPoint = 'scripts/peaks/main.js'
 
 module.exports = {
   f: config => (req, res) => {
