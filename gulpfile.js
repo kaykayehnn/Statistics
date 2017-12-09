@@ -8,11 +8,8 @@ var babel = require('gulp-babel')
 var semi = require('gulp-semi')
 
 gulp.task('build', build)
-
 gulp.task('compressScripts', compressScripts)
-
 gulp.task('compressViews', compressViews)
-
 gulp.task('copySrc', copySrc)
 
 function build (cb) {
@@ -37,7 +34,7 @@ function compressViews (cb) {
 }
 function copySrc (cb) {
   var environment = { NODE_ENV: 'production' }
-  var files = ['./@(server|public)/**/*', '!./public/scripts/']
+  var files = ['./@(server|public)/**/*', '!./public/scripts/', './package*']
   pump([
     gulp.src(files),
     envify(environment),
