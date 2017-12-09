@@ -18,7 +18,7 @@ define(['storage', 'requester', 'formatter'], function (storage, requester, form
       var startDate = date.getTime() - fiveMin
       var endDate = date.getTime() + fiveMin
       return {
-        url: '/data',
+        url: '/api/data',
         data: {
           startDate,
           endDate
