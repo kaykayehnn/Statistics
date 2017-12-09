@@ -1,0 +1,4 @@
+v0.8.2 Added a changelog. Below is an overview of basic working functionality:
+Logging data about CPU usage to a database
+Displaying statistics about usage over a timespan of a hour/day/week
+Displaying a table with peaks (value higher than a set threshold) date, usage in percent and a statistic over a short timespan close to that date
