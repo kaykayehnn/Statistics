@@ -1,3 +1,5 @@
+v1.0.0 Cleaned up a bit.
+
 v0.8.3 Fixed issue in peaks popovers that makes statistics button in jumbotron not usable.
 
 v0.8.2 Added a changelog. Below is an overview of basic working functionality:
