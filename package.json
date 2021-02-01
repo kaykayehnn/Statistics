@@ -15,7 +15,7 @@
     "express-handlebars": "^3.0.0",
     "mongodb": "2.2.33",
     "mongoose": "5.7.5",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
